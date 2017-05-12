@@ -1,0 +1,70 @@
+{# src/OC/PlatformBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ advert.title }} - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="thumbnail">
+                <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
+                <div class="caption">
+                    <h3>{{ advert.title }}</h3>
+                    <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
+                    <p>{{ advert.content }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <div class="well">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
+                            <i class="glyphicon glyphicon-edit"></i>
+                            Modifier l'annonce
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{{ path('oc_platform_edit_image', {'advertId': advert.id}) }}" class="btn btn-default">
+                            <i class="glyphicon glyphicon-edit"></i>
+                            Modifier l'image
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            Supprimer l'annonce
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            {% if not advert.categories.empty %}
+                <div class="well">
+                    <h4>Catégories :</h4>
+                    {% for category in advert.categories %}
+                        {{ category.name }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h3>Les candidatures</h3>
+            <ul class="list-group">
+                {% for application in listApplications %}
+                    <li class="list-group-item">
+                        <h4>{{ application.author }} | {{ application.date|date("d/m/y") }}</h4>
+                        <p>{{ application.content }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
